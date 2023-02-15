@@ -44,15 +44,26 @@ if (typeof $response == "undefined") {
     });
     $.log(urls);
     $.log("开始获取详情数据");
-    const doSth = async () => {
-      const results = await Promise.all(urls.map(
-        url => fetch(url).then(response => response.json()) // 这个箭头函数是 map 方法的参数
-      ))
+    let requestsArray = urls.map((url) => {
+        let request = new Request(url, {
+            headers: new Headers({
+                'Content-Type': 'text/json'
+            }), 
+            method: 'GET'
+        });
+        return request;
+    });
+    Promise.all(requestsArray.map((request) => {
+      return fetch(request).then((response) => {
+          return response.json();
+      }).then((data) => {
+          return data;
+      });
+    })).then((values) => {
       $.log("获取详情数据完毕");
       $.log(results);
       $.done(resp);
-    }
-    doSth
+    });
   }
 }
 
