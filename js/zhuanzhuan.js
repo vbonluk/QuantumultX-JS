@@ -34,6 +34,7 @@ if (typeof $response == "undefined") {
 function versionfilter(infoIds) {
   var originBody = body;
   var newDatas = [];
+  var deviceName = ""
   var systemVersions = [];
   var datas = originBody.respData.datas;
   infoIds.forEach(r => {
@@ -43,6 +44,7 @@ function versionfilter(infoIds) {
     $.log("解析详情数据");
     params.forEach(element => {
       if (element.key == "系统版本" && /15./.test(element.value)) {
+        deviceName = element.key
         systemVersions.push(element.value)
         datas.forEach(item => {
           $.log("111element.infoI:" + r.infoId);
@@ -60,7 +62,7 @@ function versionfilter(infoIds) {
   });
 
   $.log("发送通知");
-  $.notify("命中手机，数量：" + newDatas.length, element.key, element.value);
+  $.notify("命中手机，数量：" + newDatas.length, deviceName, systemVersions.toString());
 
   // 替换数据
   $.log("整合数据量：" + newDatas.length);
