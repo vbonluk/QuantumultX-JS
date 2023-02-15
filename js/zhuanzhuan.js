@@ -2,7 +2,6 @@
 const $ = API("zhuanzhuan", true); // 打开debug环境，打开所有log输出
 // 测试console
 $.log("测试输出");
-$.error("这是一条错误信息");
 
 const resp = {};
 const obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
