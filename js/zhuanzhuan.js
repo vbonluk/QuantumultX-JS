@@ -62,10 +62,12 @@ if (typeof $response == "undefined") {
 function createPromise(urls) {
   var promiseList = [];
   $.log("开始获取详情数据");
+  $.log(urls)
   urls.forEach(url => {
     const p = new Promise((resolve, reject) => {
       $.http.get(url).then(res => {
         const body = JSON.parse(res.body);
+        $.log("拿到数据: " + url);
         resolve(body.respData.report.title + ",")
       });
     });
