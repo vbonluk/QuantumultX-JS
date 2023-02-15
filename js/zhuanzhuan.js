@@ -18,29 +18,29 @@ if (typeof $response == "undefined") {
     $.notify("转转列表解析开始", "总数据量：" + body.respData.totalCount, "当前页码：" + body.respData.index + "，当前页数据量：" + body.respData.count);
     let datas = body.respData.datas;
     var newData = []
-    var urls = []
+    var infoIds = []
     $.log("开始遍历数据");
     datas.forEach(element => {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
-      let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-      urls.push(detailUrl)
+      infoIds.push(infoId)
     });
-    createPromise(urls)
+    createPromise(infoIds)
   }
 }
 
-function createPromise(urls) {
+function createPromise(infoIds) {
   var promiseList = [];
   $.log("开始获取详情数据");
-  $.log(urls)
-  urls.forEach(url => {
+  $.log(infoIds)
+  infoIds.forEach(infoId => {
+    let url = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
     const p = new Promise((resolve, reject) => {
       $.http.get(url).then(res => {
         const body = JSON.parse(res.body);
         $.log("拿到数据: " + url);
         const r = {
-          url: url,
+          infoId: infoId,
           body: body
         }
         resolve(r)
@@ -58,7 +58,8 @@ function createPromise(urls) {
       $.log("解析详情数据");
       params.forEach(element => {
         if (element.key == "系统版本" && /16./.test(element.value)) {
-          $.notify("发现iOS 15的手机", element.key, element.value, {"open-url": r.url});
+          let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId
+          $.notify("发现iOS 15的手机", element.key, element.value, {"open-url": webUrl});
         }
       });
     });
