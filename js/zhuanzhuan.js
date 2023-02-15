@@ -29,34 +29,34 @@ if (typeof $response == "undefined") {
   if (obj.respData) {
     let datas = obj.respData.datas;
     var newData = []
-    await getDetail(datas)
+    // await getDetail(datas)
   }
 	resp.body = JSON.stringify(obj);
 }
 
-async function getDetail(datas) {
-  $notify("开始遍历数据", "", "");
-  datas.forEach(element => {
-    let productDetailUrl = element.productDetailUrl
-    let infoId = element.infoId
-    let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-    // $notify("解析成功", "url", detailUrl);
-    const myRequest = {
-      url: detailUrl,
-      method: "GET",
-    };
-    $task.fetch(myRequest).then(res => {
-      const detailBody = res.body
-      const report = detailBody.respData.report
-      const reportParam = report.reportParam
-      const paramDetail = reportParam.paramDetail
-      const title = reportParam.title
-      $notify("test3", "title", title);
-    }, reason => {
-      $notify("获取详情失败", "获取详情失败", "获取详情失败");
-    });
-  });
-}
+// async function getDetail(datas) {
+//   $notify("开始遍历数据", "", "");
+//   datas.forEach(element => {
+//     let productDetailUrl = element.productDetailUrl
+//     let infoId = element.infoId
+//     let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
+//     // $notify("解析成功", "url", detailUrl);
+//     const myRequest = {
+//       url: detailUrl,
+//       method: "GET",
+//     };
+//     $task.fetch(myRequest).then(res => {
+//       const detailBody = res.body
+//       const report = detailBody.respData.report
+//       const reportParam = report.reportParam
+//       const paramDetail = reportParam.paramDetail
+//       const title = reportParam.title
+//       $notify("test3", "title", title);
+//     }, reason => {
+//       $notify("获取详情失败", "获取详情失败", "获取详情失败");
+//     });
+//   });
+// }
 
 $done(resp);
 
