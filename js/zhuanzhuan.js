@@ -58,7 +58,7 @@ function createPromise(urls) {
       $.log("解析详情数据");
       params.forEach(element => {
         if (element.key == "系统版本" && /16./.test(element.value)) {
-          $.notify("发现iOS 15的手机", element.value, element.value, {"open-url": r.url});
+          $.notify("发现iOS 15的手机", element.key, element.value, {"open-url": r.url});
         }
       });
     });
