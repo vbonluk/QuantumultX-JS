@@ -27,6 +27,28 @@ if (typeof $response == "undefined") {
 	resp.headers = $request.headers;
 } else if (obj) {
 	$notify("test2", "subtitle2", "message2");
+  if (obj.respData) {
+    let datas = obj.respData.datas;
+    var newData = []
+    datas.forEach(element => {
+      let productDetailUrl = element.productDetailUrl
+      let infoId = element.infoId
+      let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
+
+      const myRequest = {
+        url: detailUrl,
+        method: "GET",
+      };
+      $task.fetch(myRequest).then(res => {
+        const detailBody = res.body
+        const report = detailBody.respData.report
+        const reportParam = report.reportParam
+        const paramDetail = reportParam.paramDetail
+        const title = reportParam.title
+        $notify("test3", "title", title);
+      });
+    });
+  }
 	resp.body = JSON.stringify(obj);
 }
 
