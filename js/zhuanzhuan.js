@@ -1,5 +1,5 @@
-// const $ = API("weather"); // 创建一个名字为weather的脚本。默认为product环境，抑制所有log输出，保持error信息。。
-const $ = API("weather", true); // 打开debug环境，打开所有log输出
+// const $ = API("zhuanzhuan"); // 创建一个名字为weather的脚本。默认为product环境，抑制所有log输出，保持error信息。。
+const $ = API("zhuanzhuan", true); // 打开debug环境，打开所有log输出
 // 测试console
 $.log("测试输出");
 $.error("这是一条错误信息");
@@ -17,35 +17,34 @@ if (typeof $response == "undefined") {
   if (obj.respData) {
     let datas = obj.respData.datas;
     var newData = []
-    await getDetail(datas)
+    $notify("开始遍历数据", "", "");
+    datas.forEach(element => {
+      let productDetailUrl = element.productDetailUrl
+      let infoId = element.infoId
+      let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
+      $notify("数据获取成功", "", detailUrl);
+      $.http.get({
+        url: detailUrl
+      })
+      .then((res) => {
+        const body = JSON.parse(res.body);
+        const report = body.respData.report
+        const params = report.params
+        params.forEach(element => {
+          if (element.key == "系统版本") {
+            $notify(report.title, element.key, element.value);
+          }
+        });
+      });
+    });
   }
 	resp.body = JSON.stringify(obj);
 }
 
-async function getDetail(datas) {
-  $notify("开始遍历数据", "", "");
-  datas.forEach(element => {
-    let productDetailUrl = element.productDetailUrl
-    let infoId = element.infoId
-    let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-    $notify("数据获取成功", "", detailUrl);
-    $.http.get({
-      url: detailUrl
-    })
-    .then((res) => {
-      const body = JSON.parse(res.body);
-      const report = body.respData.report
-      const params = report.params
-      params.forEach(element => {
-        if (element.key == "系统版本") {
-          $notify(report.title, element.key, element.value);
-        }
-      });
-    });
-  });
-}
-
 $.done();
+
+//Bark APP notify
+async function BarkNotify(c, k, t, b) { for (let i = 0; i < 3; i++) { console.log(`🔷Bark notify >> Start push (${i + 1})`); const s = await new Promise((n) => { c.post({ url: 'https://api.day.app/push', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: t, body: b, device_key: k, ext_params: { group: t } }) }, (e, r, d) => r && r.status == 200 ? n(1) : n(d || e)) }); if (s === 1) { console.log('✅Push success!'); break } else { console.log(`❌Push failed! >> ${s.message || s}`) } } };
 
 
 //https://github.com/Peng-YM/QuanX/tree/master/Tools/OpenAPI
