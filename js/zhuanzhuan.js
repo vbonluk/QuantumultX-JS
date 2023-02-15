@@ -60,7 +60,7 @@ function versionfilter(infoIds) {
   });
 
   $.log("发送通知");
-  $.notify("命中手机", element.key, element.value);
+  $.notify("命中手机，数量：" + newDatas.length, element.key, element.value);
 
   // 替换数据
   $.log("整合数据量：" + newDatas.length);
