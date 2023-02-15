@@ -1,6 +1,6 @@
-var obj = JSON.parse($response.body);
-$notify("test", "subtitle", "message");
-$done({body: JSON.stringify(obj)});
+// var obj = JSON.parse($response.body);
+// $notify("test", "subtitle", "message");
+// $done({body: JSON.stringify(obj)});
 
 // $.notify('吾爱破解', ``, `未填写/未获取Cookie!`);
 // var responseBody = $response.body;
@@ -17,20 +17,20 @@ $done({body: JSON.stringify(obj)});
 //   $done({});
 // }
 
-// const resp = {};
-// const obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
-// const ua = $request.headers['User-Agent'] || $request.headers['user-agent'];
+const resp = {};
+const obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
+const ua = $request.headers['User-Agent'] || $request.headers['user-agent'];
 
-// if (typeof $response == "undefined") {
-// 	delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
-// 	delete $request.headers["X-RevenueCat-ETag"];
-// 	resp.headers = $request.headers;
-// } else if (obj) {
-// 	// $.notify('吾爱破解222', ``, `未填写/未获取Cookie!`);
-// 	resp.body = JSON.stringify(obj);
-// }
+if (typeof $response == "undefined") {
+	delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
+	delete $request.headers["X-RevenueCat-ETag"];
+	resp.headers = $request.headers;
+} else if (obj) {
+	$notify("test", "subtitle", "message");
+	resp.body = JSON.stringify(obj);
+}
 
-// $done(resp);
+$done(resp);
 
 
 //https://github.com/Peng-YM/QuanX/tree/master/Tools/OpenAPI
