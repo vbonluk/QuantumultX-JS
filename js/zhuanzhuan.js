@@ -43,7 +43,7 @@ function versionfilter(infoIds) {
     const params = report.params;
     $.log("解析详情数据");
     params.forEach(element => {
-      if (element.key == "系统版本" && /15./.test(element.value)) {
+      if (element.key == "系统版本" && /15.4/.test(element.value)) {
         deviceName = element.key
         systemVersions.push(element.value)
         datas.forEach(item => {
