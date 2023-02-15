@@ -35,7 +35,7 @@ function versionfilter(infoIds) {
   let originBody = body;
   var newDatas = [];
   let datas = originBody.respData.datas;
-  results.forEach(r => {
+  infoIds.forEach(r => {
     const rBody = r.body;
     const report = rBody.respData.report;
     const params = report.params;
