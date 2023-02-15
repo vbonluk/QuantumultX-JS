@@ -15,7 +15,7 @@ if (typeof $response == "undefined") {
       $notify(report.title, element.key, element.value);
     }
   });
-	resp.body = JSON.stringify(obj);
+	resp.body = JSON.stringify(body);
 }
 
 $done(resp);
