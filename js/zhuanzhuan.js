@@ -32,12 +32,14 @@ async function getDetail(datas) {
       url: detailUrl
     })
     .then((res) => {
-      const detailBody = JSON.parse(res.body);
-      const report = detailBody.respData.report
-      const reportParam = report.reportParam
-      const paramDetail = reportParam.paramDetail
-      const title = reportParam.title
-      $notify("test3", "title", title);
+      const body = JSON.parse(res.body);
+      const report = body.respData.report
+      const params = report.params
+      params.forEach(element => {
+        if (element.key == "系统版本") {
+          $notify(report.title, element.key, element.value);
+        }
+      });
     });
   });
 }
