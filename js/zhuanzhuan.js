@@ -51,13 +51,16 @@ function versionfilter(infoIds) {
             newDatas.push(item)
           }
         });
+
+        // $.log("发送通知");
+        // let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
+        // $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
       }
     });
   });
 
   $.log("发送通知");
-  let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
-  $.notify("命中手机", element.key, systemVersions.toString(), { "open-url": webUrl });
+  $.notify("命中手机", element.key, element.value);
 
   // 替换数据
   $.log("整合数据量：" + newDatas.length);
