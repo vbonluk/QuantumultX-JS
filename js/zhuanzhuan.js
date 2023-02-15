@@ -1,16 +1,16 @@
-$.notify("test332")
+$.notify('吾爱破解', ``, `未填写/未获取Cookie!`);
 var responseBody = $response.body;
 var url = $request.usl;
 if (responseBody) {
   $.notify("test22")
   var obj = JSON.parse(responseBody);
   if (/\/zzopen\/ypmall\/listData/.test(url) && obj.respData) {
-    let originList = obj.respData.datas
-    $.notify("test")
+    let originList = obj.respData.datas;
+    $.notify("test");
   }
   $done({ body: JSON.stringify(obj) });
 } else {
-  $done({})
+  $done({});
 }
 
 
