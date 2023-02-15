@@ -61,7 +61,7 @@ if (typeof $response == "undefined") {
       });
     })).then((values) => {
       $.log("获取详情数据完毕");
-      $.log(results);
+      $.log(values);
       $.done(resp);
     });
   }
