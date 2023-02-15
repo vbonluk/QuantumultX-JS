@@ -9,13 +9,11 @@ if (typeof $response == "undefined") {
 } else if (body) {
 	$notify("解析Json", "subtitle2", "message2");
   const report = body.respData.report
-  const reportParam = report.reportParam
-  const paramDetail = reportParam.paramDetail
-  const title = reportParam.title
-  const paramInfo = paramDetail.paramInfo
-  paramInfo.forEach(element => {
-    if (element.paramName == "系统版本") {
-      $notify(title, element.paramName, element.paramValue); 
+  const params = report.params
+  $notify(report.title, params[0].key, params[0].value);
+  params.forEach(element => {
+    if (element.key == "系统版本") {
+      $notify(report.title, element.key, element.value);
     }
   });
 	resp.body = JSON.stringify(obj);
