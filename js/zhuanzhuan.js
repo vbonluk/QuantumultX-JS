@@ -27,7 +27,7 @@ if (typeof $response == "undefined") {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-      $.log("开始获取详情数据");
+      // $.log("开始获取详情数据");
       // urls.push(detailUrl)
       // $.http.get(detailUrl).then(res => {
       //   const body = JSON.parse(res.body);
@@ -61,11 +61,12 @@ if (typeof $response == "undefined") {
 
 function createPromise(urls) {
   var promiseList = [];
+  $.log("开始获取详情数据");
   urls.forEach(url => {
     const p = new Promise((resolve, reject) => {
       $.http.get(url).then(res => {
         const body = JSON.parse(res.body);
-        resolve(body)
+        resolve(body.respData.report.title + ",")
       });
     });
     promiseList.push(p);
@@ -74,6 +75,8 @@ function createPromise(urls) {
     $.log("获取详情数据完毕");
     $.log(results);
     $.done(resp);
+  }).catch((err) => {
+    $.log("Promise执行错误:" + err);
   });
 }
 
