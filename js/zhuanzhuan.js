@@ -49,7 +49,7 @@ function versionfilter(infoIds) {
         });
         // 替换数据
         originBody.respData.datas = newDatas
-        esp.body = JSON.stringify(originBody);
+        resp.body = JSON.stringify(originBody);
 
         let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
         $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
