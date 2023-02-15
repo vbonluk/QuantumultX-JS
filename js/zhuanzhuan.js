@@ -42,29 +42,39 @@ if (typeof $response == "undefined") {
       //   });
       // });
     });
-    $.log(urls);
-    $.log("开始获取详情数据");
-    let requestsArray = urls.map((url) => {
-        let request = new Request(url, {
-            headers: new Headers({
-                'Content-Type': 'text/json'
-            }), 
-            method: 'GET'
-        });
-        return request;
-    });
-    Promise.all(requestsArray.map((request) => {
-      return fetch(request).then((response) => {
-          return response.json();
-      }).then((data) => {
-          return data;
-      });
-    })).then((values) => {
-      $.log("获取详情数据完毕");
-      $.log(values);
-      $.done(resp);
-    });
+    // $.log(urls);
+    // $.log("开始获取详情数据");
+    // Promise.all(urls.map((url) => {
+    //   return $.http.get(url).then((response) => {
+    //       return response.json();
+    //   }).then((data) => {
+    //       return data;
+    //   });
+    // })).then((values) => {
+    //   $.log("获取详情数据完毕");
+    //   $.log(values);
+    //   $.done(resp);
+    // });
+    createPromise(urls)
   }
+}
+
+function createPromise(urls) {
+  var promiseList = [];
+  urls.forEach(url => {
+    const p = new Promise((resolve, reject) => {
+      $.http.get(url).then(res => {
+        const body = JSON.parse(res.body);
+        resolve(body)
+      });
+    });
+    promiseList.push(p);
+  });
+  Promise.all(promiseList).then(results => {
+    $.log("获取详情数据完毕");
+    $.log(results);
+    $.done(resp);
+  });
 }
 
 //Bark APP notify
