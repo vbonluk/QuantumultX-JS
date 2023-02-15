@@ -7,10 +7,9 @@ if (typeof $response == "undefined") {
 	delete $request.headers["X-RevenueCat-ETag"];
 	resp.headers = $request.headers;
 } else if (body) {
-	$notify("解析Json", "subtitle2", "message2");
+	// $notify("解析Json", "", "");
   const report = body.respData.report
   const params = report.params
-  $notify(report.title, params[0].key, params[0].value);
   params.forEach(element => {
     if (element.key == "系统版本") {
       $notify(report.title, element.key, element.value);
