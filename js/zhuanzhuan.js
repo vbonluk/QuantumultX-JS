@@ -34,6 +34,7 @@ if (typeof $response == "undefined") {
 function versionfilter(infoIds) {
   var originBody = body;
   var newDatas = [];
+  var systemVersions = [];
   var datas = originBody.respData.datas;
   infoIds.forEach(r => {
     const rBody = r.body;
@@ -42,6 +43,7 @@ function versionfilter(infoIds) {
     $.log("解析详情数据");
     params.forEach(element => {
       if (element.key == "系统版本" && /15./.test(element.value)) {
+        systemVersions.push(element.value)
         datas.forEach(item => {
           $.log("111element.infoI:" + r.infoId);
           $.log("111item.infoI:" + item.infoId);
@@ -49,12 +51,14 @@ function versionfilter(infoIds) {
             newDatas.push(item)
           }
         });
-        $.log("发送通知");
-        let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
-        $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
       }
     });
   });
+
+  $.log("发送通知");
+  let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
+  $.notify("命中手机", element.key, systemVersions.toString(), { "open-url": webUrl });
+
   // 替换数据
   $.log("整合数据量：" + newDatas.length);
   $.log(newDatas);
