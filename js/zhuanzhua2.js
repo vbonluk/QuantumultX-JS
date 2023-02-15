@@ -12,7 +12,12 @@ if (typeof $response == "undefined") {
   const reportParam = report.reportParam
   const paramDetail = reportParam.paramDetail
   const title = reportParam.title
-  $notify("test3", "title", title);
+  const paramInfo = paramDetail.paramInfo
+  paramInfo.forEach(element => {
+    if (element.paramName == "系统版本") {
+      $notify(title, element.paramName, element.paramValue); 
+    }
+  });
 	resp.body = JSON.stringify(obj);
 }
 
