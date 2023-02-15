@@ -1,4 +1,7 @@
-const jsName = "zhuanzhuan"
+// Bark APP 通知推送Key
+const barkKey = '';
+
+const jsName = "zhuanzhuan";
 // const $ = API(jsName); // 创建一个名字为weather的脚本。默认为product环境，抑制所有log输出，保持error信息。。
 const $ = API(jsName, true); // 打开debug环境，打开所有log输出
 // 测试console
@@ -7,32 +10,58 @@ $.log(jsName + "脚本加载成功");
 const resp = {};
 const body = JSON.parse(typeof $response != "undefined" && $response.body || null);
 const ua = $request.headers['User-Agent'] || $request.headers['user-agent'];
-resp.body = JSON.stringify(body);
+// resp.body = JSON.stringify(body);
 
 if (typeof $response == "undefined") {
-	delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
-	delete $request.headers["X-RevenueCat-ETag"];
-	resp.headers = $request.headers;
+  delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
+  delete $request.headers["X-RevenueCat-ETag"];
+  resp.headers = $request.headers;
 } else if (body) {
   if (body.respData) {
     $.notify("转转列表解析开始", "总数据量：" + body.respData.totalCount, "当前页码：" + body.respData.index + "，当前页数据量：" + body.respData.count);
     let datas = body.respData.datas;
-    var newData = []
-    var infoIds = []
+    var infoIds = [];
     $.log("开始遍历数据");
     datas.forEach(element => {
-      let productDetailUrl = element.productDetailUrl
-      let infoId = element.infoId
-      infoIds.push(infoId)
+      let productDetailUrl = element.productDetailUrl;
+      let infoId = element.infoId;
+      infoIds.push(infoId);
     });
-    createPromise(infoIds)
+    createPromise(infoIds);
   }
+}
+
+function versionfilter(infoIds) {
+  let originBody = body;
+  var newDatas = [];
+  let datas = originBody.respData.datas;
+  results.forEach(r => {
+    const rBody = r.body;
+    const report = rBody.respData.report;
+    const params = report.params;
+    $.log("解析详情数据");
+    params.forEach(element => {
+      if (element.key == "系统版本" && /15./.test(element.value)) {
+        datas.forEach(item => {
+          if (element.infoId == item.infoId) {
+            newDatas.push(item)
+          }
+        });
+        // 替换数据
+        originBody.respData.datas = newDatas
+        esp.body = JSON.stringify(originBody);
+
+        let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
+        $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
+      }
+    });
+  });
 }
 
 function createPromise(infoIds) {
   var promiseList = [];
   $.log("开始获取详情数据");
-  $.log(infoIds)
+  $.log(infoIds);
   infoIds.forEach(infoId => {
     let url = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
     const p = new Promise((resolve, reject) => {
@@ -42,7 +71,7 @@ function createPromise(infoIds) {
         const r = {
           infoId: infoId,
           body: body
-        }
+        };
         resolve(r)
       });
     });
@@ -50,25 +79,19 @@ function createPromise(infoIds) {
   });
   Promise.all(promiseList).then(results => {
     $.log("获取详情数据完毕");
-    
-    results.forEach(r => {
-      const body = r.body
-      const report = body.respData.report
-      const params = report.params
-      $.log("解析详情数据");
-      params.forEach(element => {
-        if (element.key == "系统版本" && /15./.test(element.value)) {
-          let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId
-          $.notify("命中手机", element.key, element.value, {"open-url": webUrl});
-        }
-      });
-    });
+    versionfilter(results);
 
     $.done(resp);
 
   }).catch((err) => {
     $.log("Promise执行错误:" + err);
   });
+}
+
+async function notifyPhone(c = $, title = "", subTitle = "", content = "", options = {}) {
+  if (barkKey) {
+    await BarkNotify($, barkKey, title, $.msgBody);
+  }
 }
 
 //Bark APP notify
