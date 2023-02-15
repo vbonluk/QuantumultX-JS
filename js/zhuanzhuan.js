@@ -43,11 +43,9 @@ function versionfilter(infoIds) {
     params.forEach(element => {
       if (element.key == "系统版本" && /15./.test(element.value)) {
         datas.forEach(item => {
-          $.log("111element.infoI:" + element.infoI);
-          $.log("111item.infoI:" + item.infoI);
-          if (element.infoId == item.infoId) {
-            $.log("element.infoI:" + element.infoI);
-            $.log("item.infoI:" + item.infoI);
+          $.log("111element.infoI:" + r.infoId);
+          $.log("111item.infoI:" + item.infoId);
+          if (r.infoId == item.infoId) {
             newDatas.push(item)
           }
         });
