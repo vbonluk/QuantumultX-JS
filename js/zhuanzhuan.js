@@ -4,42 +4,43 @@ const $ = API("zhuanzhuan", true); // 打开debug环境，打开所有log输出
 $.log("测试输出");
 
 const resp = {};
-const obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
-const ua = $request.headers['User-Agent'] || $request.headers['user-agent'];
+const body = JSON.parse(typeof $response != "undefined" && $response.body || null);
+// const ua = $request.headers['User-Agent'] || $request.headers['user-agent'];
 
-if (typeof $response == "undefined") {
-	delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
-	delete $request.headers["X-RevenueCat-ETag"];
-	resp.headers = $request.headers;
-} else if (obj) {
-	$notify("解析Json", "subtitle2", "message2");
-  if (obj.respData) {
-    let datas = obj.respData.datas;
-    var newData = []
-    $notify("开始遍历数据", "", "");
-    datas.forEach(element => {
-      let productDetailUrl = element.productDetailUrl
-      let infoId = element.infoId
-      let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-      $notify("数据获取成功", "", detailUrl);
-      $.http.get({
-        url: detailUrl
-      })
-      .then((res) => {
-        const body = JSON.parse(res.body);
-        const report = body.respData.report
-        const params = report.params
-        params.forEach(element => {
-          if (element.key == "系统版本") {
-            $notify(report.title, element.key, element.value);
-          }
-        });
-      });
-    });
-  }
-	resp.body = JSON.stringify(obj);
-}
-
+// if (typeof $response == "undefined") {
+// 	delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
+// 	delete $request.headers["X-RevenueCat-ETag"];
+// 	resp.headers = $request.headers;
+// } else if (body) {
+// 	$notify("解析Json", "subtitle2", "message2");
+//   if (body.respData) {
+//     let datas = body.respData.datas;
+//     var newData = []
+//     $notify("开始遍历数据", "", "");
+//     datas.forEach(element => {
+//       let productDetailUrl = element.productDetailUrl
+//       let infoId = element.infoId
+//       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
+//       $notify("数据获取成功", "", detailUrl);
+//       $.http.get({
+//         url: detailUrl
+//       })
+//       .then((res) => {
+//         const body = JSON.parse(res.body);
+//         const report = body.respData.report
+//         const params = report.params
+//         params.forEach(element => {
+//           if (element.key == "系统版本") {
+//             $notify(report.title, element.key, element.value);
+//           }
+//         });
+//       });
+//     });
+//   }
+// 	resp.body = JSON.stringify(body);
+// }
+resp.body = JSON.stringify(body);
+$notify("完毕", "", "");
 $.done(resp);
 
 //Bark APP notify
