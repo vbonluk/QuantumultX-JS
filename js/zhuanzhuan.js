@@ -48,7 +48,8 @@ if (typeof $response == "undefined") {
       const results = await Promise.all(urls.map(
         url => fetch(url).then(response => response.json()) // 这个箭头函数是 map 方法的参数
       ))
-      console.log(results) // 俩 json
+      $.log("获取详情数据完毕");
+      $.log(results);
       $.done(resp);
     }
   }
