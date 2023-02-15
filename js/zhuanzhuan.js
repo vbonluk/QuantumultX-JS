@@ -18,7 +18,6 @@ if (typeof $response == "undefined") {
     let datas = body.respData.datas;
     var newData = []
     $.log("开始遍历数据");
-    $.log(datas)
     datas.forEach(element => {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
@@ -28,6 +27,8 @@ if (typeof $response == "undefined") {
         const body = JSON.parse(res.body);
         const report = body.respData.report
         const params = report.params
+        $.log("获取详情数据成功");
+        $.log(datas)
         params.forEach(element => {
           if (element.key == "系统版本") {
             $.notify(report.title, element.key, element.value);
