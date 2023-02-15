@@ -26,7 +26,7 @@ if (typeof $response == "undefined") {
 	delete $request.headers["X-RevenueCat-ETag"];
 	resp.headers = $request.headers;
 } else if (obj) {
-	$notify("test2", "subtitle2", "message2");
+	$notify("解析Json", "subtitle2", "message2");
   if (obj.respData) {
     let datas = obj.respData.datas;
     var newData = []
@@ -34,7 +34,7 @@ if (typeof $response == "undefined") {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-
+      $notify("解析成功", "url", detailUrl);
       const myRequest = {
         url: detailUrl,
         method: "GET",
@@ -46,6 +46,8 @@ if (typeof $response == "undefined") {
         const paramDetail = reportParam.paramDetail
         const title = reportParam.title
         $notify("test3", "title", title);
+      }, reason => {
+        $notify("获取详情失败", "获取详情失败", "获取详情失败");
       });
     });
   }
