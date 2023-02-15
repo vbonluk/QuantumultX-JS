@@ -26,7 +26,7 @@ if (typeof $response == "undefined") {
 	delete $request.headers["X-RevenueCat-ETag"];
 	resp.headers = $request.headers;
 } else if (obj) {
-	$notify("test", "subtitle", "message");
+	$notify("test2", "subtitle2", "message2");
 	resp.body = JSON.stringify(obj);
 }
 
