@@ -18,26 +18,36 @@ if (typeof $response == "undefined") {
   if (body.respData) {
     let datas = body.respData.datas;
     var newData = []
+    var urls = []
     $.log("开始遍历数据");
     datas.forEach(element => {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
       $.log("开始获取详情数据");
-      $.http.get(detailUrl).then(res => {
-        const body = JSON.parse(res.body);
-        const report = body.respData.report
-        const params = report.params
-        $.log("获取详情数据成功");
-        $.log(datas)
-        params.forEach(element => {
-          if (element.key == "系统版本") {
-            $.notify(report.title, element.key, element.value);
-          }
-        });
-        $.done(resp);
-      });
+      urls.push(detailUrl)
+      // $.http.get(detailUrl).then(res => {
+      //   const body = JSON.parse(res.body);
+      //   const report = body.respData.report
+      //   const params = report.params
+      //   $.log("获取详情数据成功");
+      //   $.log(datas)
+      //   params.forEach(element => {
+      //     if (element.key == "系统版本") {
+      //       $.notify(report.title, element.key, element.value);
+      //     }
+      //   });
+      // });
     });
+    $.log(urls);
+    $.log("开始获取详情数据");
+    const doSth = async () => {
+      const results = await Promise.all(urls.map(
+        url => fetch(url).then(response => response.json()) // 这个箭头函数是 map 方法的参数
+      ))
+      console.log(results) // 俩 json
+      $.done(resp);
+    }
   }
 }
 
