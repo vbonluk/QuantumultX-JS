@@ -47,14 +47,14 @@ function versionfilter(infoIds) {
             newDatas.push(item)
           }
         });
-        // 替换数据
-        originBody.respData.datas = newDatas
-        resp.body = JSON.stringify(originBody);
 
         let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
         $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
       }
     });
+    // 替换数据
+    originBody.respData.datas = newDatas
+    resp.body = JSON.stringify(originBody);
   });
 }
 
