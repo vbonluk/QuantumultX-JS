@@ -32,9 +32,9 @@ if (typeof $response == "undefined") {
 }
 
 function versionfilter(infoIds) {
-  let originBody = body;
+  var originBody = body;
   var newDatas = [];
-  let datas = originBody.respData.datas;
+  var datas = originBody.respData.datas;
   infoIds.forEach(r => {
     const rBody = r.body;
     const report = rBody.respData.report;
@@ -47,15 +47,16 @@ function versionfilter(infoIds) {
             newDatas.push(item)
           }
         });
-
+        $.log("发送通知");
         let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
         $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
       }
     });
-    // 替换数据
-    originBody.respData.datas = newDatas
-    resp.body = JSON.stringify(originBody);
   });
+  // 替换数据
+  $.log("整合数据量：" + newDatas.length);
+  originBody.respData.datas = newDatas
+  resp.body = JSON.stringify(originBody);
 }
 
 function createPromise(infoIds) {
