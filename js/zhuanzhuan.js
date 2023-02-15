@@ -6,7 +6,9 @@ if (responseBody) {
     let originList = obj.respData.datas
     $nobyda.notify("test")
   }
-
+  $done({ body: JSON.stringify(obj) });
+} else {
+  $done({})
 }
 
 /**
