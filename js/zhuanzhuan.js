@@ -4,7 +4,7 @@ if (responseBody) {
   var obj = JSON.parse(responseBody);
   if (/\/zzopen\/ypmall\/listData/.test(url) && obj.respData) {
     let originList = obj.respData.datas
-    $nobyda.notify("test")
+    $.notify("test")
   }
   $done({ body: JSON.stringify(obj) });
 } else {
