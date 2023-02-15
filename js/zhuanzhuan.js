@@ -17,19 +17,20 @@ if (typeof $response == "undefined") {
   if (body.respData) {
     let datas = body.respData.datas;
     var newData = []
-    $.notify("开始遍历数据", "", "");
+    $.log("开始遍历数据");
+    $.log(datas)
     datas.forEach(element => {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-      $.notify("数据获取成功", "", detailUrl);
+      $.log("开始获取详情数据");
       $.http.get(detailUrl).then(res => {
         const body = JSON.parse(res.body);
         const report = body.respData.report
         const params = report.params
         params.forEach(element => {
           if (element.key == "系统版本") {
-            $notify(report.title, element.key, element.value);
+            $.notify(report.title, element.key, element.value);
           }
         });
       });
