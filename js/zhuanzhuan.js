@@ -16,17 +16,17 @@ $.notify('吾爱破解', ``, `未填写/未获取Cookie!`);
 const resp = {};
 const obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
 const ua = $request.headers['User-Agent'] || $request.headers['user-agent'];
-
+$done($response.body);
 if (typeof $response == "undefined") {
 	delete $request.headers["x-revenuecat-etag"]; // prevent 304 issues
 	delete $request.headers["X-RevenueCat-ETag"];
 	resp.headers = $request.headers;
 } else if (obj) {
-	$.notify('吾爱破解222', ``, `未填写/未获取Cookie!`);
+	// $.notify('吾爱破解222', ``, `未填写/未获取Cookie!`);
 	resp.body = JSON.stringify(obj);
 }
 
-$done(resp);
+// $done(resp);
 
 
 //https://github.com/Peng-YM/QuanX/tree/master/Tools/OpenAPI
