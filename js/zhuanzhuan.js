@@ -25,32 +25,7 @@ if (typeof $response == "undefined") {
       let infoId = element.infoId
       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
       urls.push(detailUrl)
-      // $.http.get(detailUrl).then(res => {
-      //   const body = JSON.parse(res.body);
-      //   const report = body.respData.report
-      //   const params = report.params
-      //   $.log("获取详情数据成功");
-      //   $.log(datas)
-      //   params.forEach(element => {
-      //     if (element.key == "系统版本") {
-      //       $.notify(report.title, element.key, element.value);
-      //     }
-      //   });
-      // });
     });
-    // $.log(urls);
-    // $.log("开始获取详情数据");
-    // Promise.all(urls.map((url) => {
-    //   return $.http.get(url).then((response) => {
-    //       return response.json();
-    //   }).then((data) => {
-    //       return data;
-    //   });
-    // })).then((values) => {
-    //   $.log("获取详情数据完毕");
-    //   $.log(values);
-    //   $.done(resp);
-    // });
     createPromise(urls)
   }
 }
@@ -64,7 +39,11 @@ function createPromise(urls) {
       $.http.get(url).then(res => {
         const body = JSON.parse(res.body);
         $.log("拿到数据: " + url);
-        resolve(body)
+        const r = {
+          url: url,
+          body: body
+        }
+        resolve(r)
       });
     });
     promiseList.push(p);
@@ -72,19 +51,20 @@ function createPromise(urls) {
   Promise.all(promiseList).then(results => {
     $.log("获取详情数据完毕");
     
-    var systemVersion = ""
-    results.forEach(body => {
+    results.forEach(r => {
+      const body = r.body
       const report = body.respData.report
       const params = report.params
       $.log("解析详情数据");
       params.forEach(element => {
-        if (element.key == "系统版本") {
-          $.notify(report.title, element.key, element.value);
+        if (element.key == "系统版本" && /16./.test(element.value)) {
+          $.notify("发现iOS 15的手机", element.value, r.url);
         }
       });
     });
 
     $.done(resp);
+
   }).catch((err) => {
     $.log("Promise执行错误:" + err);
   });
