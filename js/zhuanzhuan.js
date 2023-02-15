@@ -28,6 +28,7 @@ async function getDetail(datas) {
     let productDetailUrl = element.productDetailUrl
     let infoId = element.infoId
     let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
+    $notify("数据获取成功", "", detailUrl);
     $.http.get({
       url: detailUrl
     })
