@@ -14,8 +14,8 @@ if (typeof $response == "undefined") {
 	delete $request.headers["X-RevenueCat-ETag"];
 	resp.headers = $request.headers;
 } else if (body) {
-	$.notify("解析Json", "subtitle2", "message2");
   if (body.respData) {
+    $.notify("转转列表解析开始", "总数据量：" + body.respData.totalCount, "当前页码：" + body.respData.index + "，当前页数据量：" + body.respData.count);
     let datas = body.respData.datas;
     var newData = []
     var urls = []
@@ -52,6 +52,7 @@ if (typeof $response == "undefined") {
       $.log(results);
       $.done(resp);
     }
+    doSth
   }
 }
 
