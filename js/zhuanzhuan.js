@@ -64,14 +64,26 @@ function createPromise(urls) {
       $.http.get(url).then(res => {
         const body = JSON.parse(res.body);
         $.log("拿到数据: " + url);
-        resolve(body.respData.report.title + ",")
+        resolve(body)
       });
     });
     promiseList.push(p);
   });
   Promise.all(promiseList).then(results => {
     $.log("获取详情数据完毕");
-    $.log(results);
+    
+    var systemVersion = ""
+    results.forEach(body => {
+      const report = body.respData.report
+      const params = report.params
+      $.log("解析详情数据");
+      params.forEach(element => {
+        if (element.key == "系统版本") {
+          $.notify(report.title, element.key, element.value);
+        }
+      });
+    });
+
     $.done(resp);
   }).catch((err) => {
     $.log("Promise执行错误:" + err);
