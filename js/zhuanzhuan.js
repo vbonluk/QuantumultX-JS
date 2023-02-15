@@ -43,7 +43,11 @@ function versionfilter(infoIds) {
     params.forEach(element => {
       if (element.key == "系统版本" && /15./.test(element.value)) {
         datas.forEach(item => {
+          $.log("111element.infoI:" + element.infoI);
+          $.log("111item.infoI:" + item.infoI);
           if (element.infoId == item.infoId) {
+            $.log("element.infoI:" + element.infoI);
+            $.log("item.infoI:" + item.infoI);
             newDatas.push(item)
           }
         });
@@ -55,7 +59,8 @@ function versionfilter(infoIds) {
   });
   // 替换数据
   $.log("整合数据量：" + newDatas.length);
-  originBody.respData.datas = newDatas
+  $.log(newDatas);
+  originBody.respData.datas = newDatas;
   resp.body = JSON.stringify(originBody);
 }
 
