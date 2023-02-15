@@ -59,7 +59,7 @@ function createPromise(infoIds) {
       params.forEach(element => {
         if (element.key == "系统版本" && /15./.test(element.value)) {
           let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId
-          $.notify("发现iOS 15的手机", element.key, element.value, {"open-url": webUrl});
+          $.notify("命中手机", element.key, element.value, {"open-url": webUrl});
         }
       });
     });
