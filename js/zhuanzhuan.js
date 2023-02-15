@@ -54,9 +54,9 @@ function versionfilter(infoIds) {
           }
         });
 
-        $.log("发送通知");
-        let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
-        $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
+        // $.log("发送通知");
+        // let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
+        // $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
       }
     });
   });
