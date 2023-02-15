@@ -20,15 +20,11 @@ if (typeof $response == "undefined") {
     var newData = []
     var urls = []
     $.log("开始遍历数据");
-    let infoId = datas[0].infoId
-    let detailUrl222 = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-    urls.push(detailUrl222)
     datas.forEach(element => {
       let productDetailUrl = element.productDetailUrl
       let infoId = element.infoId
       let detailUrl = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-      // $.log("开始获取详情数据");
-      // urls.push(detailUrl)
+      urls.push(detailUrl)
       // $.http.get(detailUrl).then(res => {
       //   const body = JSON.parse(res.body);
       //   const report = body.respData.report
