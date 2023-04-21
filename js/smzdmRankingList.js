@@ -18,9 +18,10 @@ if (typeof $response == "undefined") {
   delete $request.headers["X-RevenueCat-ETag"];
   resp.headers = $request.headers;
 } else if (body) {
-  if (body.respData) {
+  if (body.data) {
     $.notify("张大妈列表解析开始", "总数据量：" + body.data.total_nums, "当前页码：" + body.respData.index + "，当前页数据量：" + body.respData.count);
     let datas = body.data.rows;
+    var originBody = body;
     var newDatas = [];
     $.log("开始遍历数据");
     datas.forEach(element => {
@@ -30,10 +31,10 @@ if (typeof $response == "undefined") {
       if(rate*100>80) {
           newDatas.push(element);
       }
-
-      body.data.rows = newDatas;
-      resp.body = JSON.stringify(body);
     });
+    originBody.data.rows = newDatas;
+    resp.body = JSON.stringify(originBody);
+    $.done(resp);
   }
 }
 async function notifyPhone(c = $, title = "", subTitle = "", content = "", options = {}) {
