@@ -2,7 +2,7 @@
 // Bark APP 通知推送Key
 const barkKey = '';
 
-const jsName = "zhuanzhuan";
+const jsName = "smzdm";
 // const $ = API(jsName); // 创建一个名字为weather的脚本。默认为product环境，抑制所有log输出，保持error信息。。
 const $ = API(jsName, true); // 打开debug环境，打开所有log输出
 // 测试console
@@ -19,89 +19,23 @@ if (typeof $response == "undefined") {
   resp.headers = $request.headers;
 } else if (body) {
   if (body.respData) {
-    $.notify("转转列表解析开始", "总数据量：" + body.respData.totalCount, "当前页码：" + body.respData.index + "，当前页数据量：" + body.respData.count);
-    let datas = body.respData.datas;
-    var infoIds = [];
+    $.notify("张大妈列表解析开始", "总数据量：" + body.data.total_nums, "当前页码：" + body.respData.index + "，当前页数据量：" + body.respData.count);
+    let datas = body.data.rows;
+    var newDatas = [];
     $.log("开始遍历数据");
     datas.forEach(element => {
-      let productDetailUrl = element.productDetailUrl;
-      let infoId = element.infoId;
-      infoIds.push(infoId);
+      let article_worthy = element.article_worthy;
+      let article_unworthy = element.article_unworthy;
+      let rate = article_worthy/(article_worthy+article_unworthy)
+      if(rate*100>80) {
+          newDatas.push(element);
+      }
+
+      body.data.rows = newDatas;
+      resp.body = JSON.stringify(body);
     });
-    createPromise(infoIds);
   }
 }
-
-function versionfilter(infoIds) {
-  var originBody = body;
-  var newDatas = [];
-  var deviceName = ""
-  var systemVersions = [];
-  var datas = originBody.respData.datas;
-  infoIds.forEach(r => {
-    const rBody = r.body;
-    const report = rBody.respData.report;
-    const params = report.params;
-    $.log("解析详情数据");
-    params.forEach(element => {
-      if (element.key == "系统版本" && /15.4/.test(element.value)) {
-        deviceName = element.key
-        systemVersions.push(element.value)
-        datas.forEach(item => {
-          $.log("111element.infoI:" + r.infoId);
-          $.log("111item.infoI:" + item.infoId);
-          if (r.infoId == item.infoId) {
-            newDatas.push(item)
-          }
-        });
-
-        // $.log("发送通知");
-        // let webUrl = "https://m.zhuanzhuan.com/u/streamline_detail/new-goods-detail?infoId=" + r.infoId;
-        // $.notify("命中手机", element.key, element.value, { "open-url": webUrl });
-      }
-    });
-  });
-
-  $.log("发送通知");
-  $.notify("命中手机，数量：" + newDatas.length, deviceName, systemVersions.toString());
-
-  // 替换数据
-  $.log("整合数据量：" + newDatas.length);
-  $.log(newDatas);
-  originBody.respData.datas = newDatas;
-  resp.body = JSON.stringify(originBody);
-}
-
-function createPromise(infoIds) {
-  var promiseList = [];
-  $.log("开始获取详情数据");
-  $.log(infoIds);
-  infoIds.forEach(infoId => {
-    let url = "https://app.zhuanzhuan.com/zzopen/waresshow/moreInfo?infoId=" + infoId
-    const p = new Promise((resolve, reject) => {
-      $.http.get(url).then(res => {
-        const body = JSON.parse(res.body);
-        $.log("拿到数据: " + url);
-        const r = {
-          infoId: infoId,
-          body: body
-        };
-        resolve(r)
-      });
-    });
-    promiseList.push(p);
-  });
-  Promise.all(promiseList).then(results => {
-    $.log("获取详情数据完毕");
-    versionfilter(results);
-
-    $.done(resp);
-
-  }).catch((err) => {
-    $.log("Promise执行错误:" + err);
-  });
-}
-
 async function notifyPhone(c = $, title = "", subTitle = "", content = "", options = {}) {
   if (barkKey) {
     await BarkNotify($, barkKey, title, $.msgBody);
