@@ -25,8 +25,8 @@ if (typeof $response == "undefined") {
     var newDatas = [];
     $.log("开始遍历数据");
     datas.forEach(element => {
-      let article_worthy = element.article_worthy;
-      let article_unworthy = element.article_unworthy;
+      let article_worthy = parseInt(element.article_worthy);
+      let article_unworthy = parseInt(element.article_unworthy);
       let rate = article_worthy/(article_worthy+article_unworthy)
       if(rate*100>80) {
           newDatas.push(element);
