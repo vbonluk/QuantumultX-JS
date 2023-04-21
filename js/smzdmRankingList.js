@@ -32,7 +32,9 @@ if (typeof $response == "undefined") {
           newDatas.push(element);
       }
     });
+    $.log("数据处理完成");
     originBody.data.rows = newDatas;
+    $.log(newDatas);
     resp.body = JSON.stringify(originBody);
     $.done(resp);
   }
