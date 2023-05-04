@@ -19,11 +19,11 @@ if (typeof $response == "undefined") {
   resp.headers = $request.headers;
 } else if (body) {
   if (body.data) {
-    //$.notify("张大妈列表解析开始", "总数据量：" + body.data.total_nums);
+    // $.notify("张大妈列表解析开始", "总数据量：" + body.data.total_nums);
     let datas = body.data.rows;
     var originBody = body;
     var newDatas = [];
-    //$.log("开始遍历数据");
+    // $.log("开始遍历数据");
     datas.forEach(element => {
       let article_worthy = parseInt(element.article_worthy);
       let article_unworthy = parseInt(element.article_unworthy);
@@ -32,9 +32,9 @@ if (typeof $response == "undefined") {
           newDatas.push(element);
       }
     });
-    //$.log("数据处理完成");
+    // $.log("数据处理完成");
     originBody.data.rows = newDatas;
-    //$.log(newDatas);
+    // $.log(newDatas);
     resp.body = JSON.stringify(originBody);
     $.done(resp);
   }
