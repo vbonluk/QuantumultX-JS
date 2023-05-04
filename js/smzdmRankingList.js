@@ -19,7 +19,7 @@ if (typeof $response == "undefined") {
   resp.headers = $request.headers;
 } else if (body) {
   if (body.data) {
-    // $.notify("张大妈列表解析开始", "总数据量：" + body.data.total_nums);
+    $.notify("张大妈列表解析开始", "总数据量：" + body.data.total_nums);
     let datas = body.data.rows;
     var originBody = body;
     var newDatas = [];
