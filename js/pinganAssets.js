@@ -8,9 +8,11 @@ if (typeof $response == "undefined") {
 	resp.headers = $request.headers;
 } else if (body) {
 	// $notify("解析Json", "", "");
-  const totalAsset = body.data.content.interfaces.totalAsset
+  const totalAsset = body.results.rmb.cashBalanceDetail.drawBalance;
   $notify(totalAsset, "", "");
-  body.data.content.interfaces.totalAsset=totalAsset*20000000
+  body.results.rmb.cashBalanceDetail.drawBalance=totalAsset*20000000;
+	  body.results.rmb.cashBalanceDetail.available=totalAsset*20000000;
+	  body.results.rmb.totalAssetVal=totalAsset*20000000;
 	resp.body = JSON.stringify(body);
 }
 
