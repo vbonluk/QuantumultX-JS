@@ -10,7 +10,7 @@ if (typeof $response == "undefined") {
 	// $notify("解析Json", "", "");
   const totalAsset = body.data.content.interfaces.totalAsset
   $notify(totalAsset, "", "");
-  body.data.content.interfaces.totalAsset=totalAsset*20
+  body.data.content.interfaces.totalAsset=totalAsset*20000000
 	resp.body = JSON.stringify(body);
 }
 
