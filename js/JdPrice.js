@@ -51,6 +51,7 @@ if (url.indexOf(path2) != -1) {
         const tip = data.PriceRemark.Tip + "（仅供参考）";
         lowerword.data.brightPoints = `${lower} ${tip}\n${detail}`;
         floors.insert(bestIndex, lowerword);
+        floors.insert(bestIndex + 1, detail);
       }
       if (data.ok == 0 && data.msg.length > 0) {
         lowerword.data.brightPoints = "" + data.msg;
