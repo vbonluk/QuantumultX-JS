@@ -31,8 +31,7 @@ if (url.indexOf(path2) != -1) {
   const shareUrl = commodity_info.data.property.shareUrl;
   request_history_price(shareUrl, function (data) {
     if (data) {
-      const lowerword = adword_obj();
-      lowerword.data.ad.textColor = "#fe0000";
+      const lowerword = brightPoints_obj();
       let bestIndex = 0;
       for (let index = 0; index < floors.length; index++) {
         const element = floors[index];
@@ -50,11 +49,11 @@ if (url.indexOf(path2) != -1) {
         const lower = lowerMsgs(data.single);
         const detail = priceSummary(data);
         const tip = data.PriceRemark.Tip + "（仅供参考）";
-        lowerword.data.ad.adword = `${lower} ${tip}\n${detail}`;
+        lowerword.data.brightPoints = `${lower} ${tip}\n${detail}`;
         floors.insert(bestIndex, lowerword);
       }
       if (data.ok == 0 && data.msg.length > 0) {
-        lowerword.data.ad.adword = "" + data.msg;
+        lowerword.data.brightPoints = "" + data.msg;
         floors.insert(bestIndex, lowerword);
       }
       $done({ body: JSON.stringify(obj) });
@@ -222,28 +221,21 @@ function getSpace(length) {
   return blank;
 }
 
-function adword_obj() {
+function brightPoints_obj() {
   return {
-    bId: "eCustom_flo_199",
+    bId: "eCustom_flo_452",
     cf: {
       bgc: "#ffffff",
       spl: "empty",
     },
     data: {
       ad: {
-        adword: "",
-        textColor: "#8C8C8C",
-        color: "#f23030",
-        newALContent: true,
-        hasFold: true,
-        class: "com.jd.app.server.warecoresoa.domain.AdWordInfo.AdWordInfo",
-        adLinkContent: "",
-        adLink: "",
+        brightPoints: "",
       },
     },
-    mId: "bpAdword",
-    refId: "eAdword_0000000028",
-    sortId: 13,
+    overHeight: 0,
+    mId: "bpBrightpoint",
+    sortId: 42,
   };
 }
 
