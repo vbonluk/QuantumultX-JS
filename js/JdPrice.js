@@ -35,7 +35,7 @@ if (url.indexOf(path2) != -1) {
       let bestIndex = 0;
       for (let index = 0; index < floors.length; index++) {
         const element = floors[index];
-        if (element.mId == lowerword.mId) {
+        if (element.mId == "bpMasterdata") {
           lowerword = element
           bestIndex = index + 1;
           break;
