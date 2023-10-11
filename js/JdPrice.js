@@ -36,6 +36,7 @@ if (url.indexOf(path2) != -1) {
       for (let index = 0; index < floors.length; index++) {
         const element = floors[index];
         if (element.mId == lowerword.mId) {
+          lowerword = element
           bestIndex = index + 1;
           break;
         } else {
@@ -49,11 +50,9 @@ if (url.indexOf(path2) != -1) {
         const lower = lowerMsgs(data.single);
         const detail = priceSummary(data);
         const tip = data.PriceRemark.Tip + "（仅供参考）";
-        lowerword.data.brightPoints = `${lower} ${tip}\n${detail}`;
+        const origin_name = lowerword.data.wareInfo.name;
+        lowerword.data.wareInfo.name = `${origin_name} ${lower} ${tip}\n${detail}`;
         floors.insert(bestIndex, lowerword);
-        const lowerword2 = lowerword;
-        lowerword2.data.brightPoints = `${detail}`;
-        floors.insert(bestIndex + 1, lowerword2);
       }
       if (data.ok == 0 && data.msg.length > 0) {
         lowerword.data.brightPoints = "" + data.msg;
@@ -235,8 +234,8 @@ function brightPoints_obj() {
         brightPoints: ""
       },
       overHeight: 1,
-      mId: "bpBrightpoint",
-      sortId: 42
+      mId: "bpMasterdata",
+      sortId: 213
   };
 }
 
