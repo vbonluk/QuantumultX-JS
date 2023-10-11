@@ -1,7 +1,7 @@
 const path1 = "serverConfig";
 const path2 = "wareBusiness";
 const path3 = "basicConfig";
-const consolelog = true;
+const consolelog = false;
 const url = $request.url;
 const body = $response.body;
 const $tool = tool();
@@ -31,7 +31,8 @@ if (url.indexOf(path2) != -1) {
   const shareUrl = commodity_info.data.property.shareUrl;
   request_history_price(shareUrl, function (data) {
     if (data) {
-      const lowerword = brightPoints_obj();
+      const lowerword = adword_obj();
+      lowerword.data.ad.textColor = "#fe0000";
       let bestIndex = 0;
       for (let index = 0; index < floors.length; index++) {
         const element = floors[index];
@@ -49,11 +50,11 @@ if (url.indexOf(path2) != -1) {
         const lower = lowerMsgs(data.single);
         const detail = priceSummary(data);
         const tip = data.PriceRemark.Tip + "（仅供参考）";
-        lowerword.data.brightPoints = `${lower} ${tip}\n${detail}`;
+        lowerword.data.ad.adword = `${lower} ${tip}\n${detail}`;
         floors.insert(bestIndex, lowerword);
       }
       if (data.ok == 0 && data.msg.length > 0) {
-        lowerword.data.brightPoints = "" + data.msg;
+        lowerword.data.ad.adword = "" + data.msg;
         floors.insert(bestIndex, lowerword);
       }
       $done({ body: JSON.stringify(obj) });
@@ -221,7 +222,7 @@ function getSpace(length) {
   return blank;
 }
 
-function brightPoints_obj() {
+function adword_obj() {
   return {
     bId: "eCustom_flo_199",
     cf: {
@@ -229,8 +230,7 @@ function brightPoints_obj() {
       spl: "empty",
     },
     data: {
-      brightPoints: "",
-      /: {
+      ad: {
         adword: "",
         textColor: "#8C8C8C",
         color: "#f23030",
