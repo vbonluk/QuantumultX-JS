@@ -232,6 +232,7 @@ function brightPoints_obj() {
       brightPoints: "",
     },
     mId: "bpBrightpoint",
+    class: "com.jd.app.server.warecoresoa.domain.AdWordInfo.AdWordInfo",
     sortId: 42,
   };
 }
