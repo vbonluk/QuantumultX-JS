@@ -229,11 +229,8 @@ function brightPoints_obj() {
       spl: "empty",
     },
     data: {
-      ad: {
-        brightPoints: "",
-      },
+      brightPoints: "",
     },
-    overHeight: 0,
     mId: "bpBrightpoint",
     sortId: 42,
   };
