@@ -223,27 +223,17 @@ function getSpace(length) {
 
 function brightPoints_obj() {
   return {
-    bId: "eCustom_flo_199",
-    cf: {
-      bgc: "#ffffff",
-      spl: "empty",
-    },
-    data: {
-      brightPoints: "",
-      /: {
-        adword: "",
-        textColor: "#8C8C8C",
-        color: "#f23030",
-        newALContent: true,
-        hasFold: true,
-        class: "com.jd.app.server.warecoresoa.domain.AdWordInfo.AdWordInfo",
-        adLinkContent: "",
-        adLink: "",
+    bId: "eCustom_flo_452",
+      cf: {
+        bgc: "#ffffff",
+        spl: "empty"
       },
-    },
-    mId: "bpAdword",
-    refId: "eAdword_0000000028",
-    sortId: 13,
+      data: {
+        brightPoints: ""
+      },
+      overHeight: 1,
+      mId: "bpBrightpoint",
+      sortId: 42
   };
 }
 
