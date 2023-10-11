@@ -31,29 +31,32 @@ if (url.indexOf(path2) != -1) {
   const shareUrl = commodity_info.data.property.shareUrl;
   request_history_price(shareUrl, function (data) {
     if (data) {
-      const lowerword = brightPoints_obj();
+      const preIconList = preIconList_obj();
+      const lowerword = preIconList[0];
       let bestIndex = 0;
+      let target_index = 0;
       for (let index = 0; index < floors.length; index++) {
         const element = floors[index];
-        if (element.mId == lowerword.mId) {
+        if (element.mId == "bpServe") {
+          target_index = index
           bestIndex = index + 1;
+          preIconList = element.data.serviceInfo.basic.preIconList;
+          lowerword = preIconList[0];
           break;
-        } else {
-          if (element.sortId > lowerword.sortId) {
-            bestIndex = index;
-            break;
-          }
         }
       }
       if (data.ok == 1 && data.single) {
         const lower = lowerMsgs(data.single);
         const detail = priceSummary(data);
         const tip = data.PriceRemark.Tip + "（仅供参考）";
-        lowerword.data.brightPoints = `${lower} ${tip}\n${detail}`;
-        floors.insert(bestIndex, lowerword);
+        lowerword.text = `${lower} ${tip}\n${detail}`;
+        // floors.insert(bestIndex, lowerword);
+        const target_obj = floors[target_index];
+        target_obj.data.serviceInfo.basic.preIconList = [lowerword];
+        floors[target_index] = target_obj;
       }
       if (data.ok == 0 && data.msg.length > 0) {
-        lowerword.data.brightPoints = "" + data.msg;
+        lowerword.text = "" + data.msg;
         floors.insert(bestIndex, lowerword);
       }
       $done({ body: JSON.stringify(obj) });
@@ -221,20 +224,17 @@ function getSpace(length) {
   return blank;
 }
 
-function brightPoints_obj() {
-  return {
-    bId: "eCustom_flo_452",
-    cf: {
-      bgc: "#ffffff",
-      spl: "empty",
-    },
-    data: {
-      brightPoints: "",
-    },
-    mId: "bpBrightpoint",
-    class: "com.jd.app.server.warecoresoa.domain.AdWordInfo.AdWordInfo",
-    sortId: 42,
-  };
+function preIconList_obj() {
+  return [{
+    jichu: false,
+    sortId: 1,
+    tip: "支持7天无理由退货（密封条损毁不支持、合约版不支持）",
+    code: "service_qitiantuihuo",
+    show: true,
+    imageUrl: "https://m.360buyimg.com/mobilecms/jfs/t1918/274/1086575987/1970/bc766f2d/5680f4b3N24b48659.png.avif",
+    text: "测试测试",
+    iconType: "right"
+  }];
 }
 
 function tool() {
