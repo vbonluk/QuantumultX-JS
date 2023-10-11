@@ -50,9 +50,9 @@ if (url.indexOf(path2) != -1) {
         const detail = priceSummary(data);
         const tip = data.PriceRemark.Tip + "（仅供参考）";
         lowerword.data.brightPoints = `${lower} ${tip}\n${detail}`;
+        floors.insert(bestIndex, lowerword);
         const lowerword2 = lowerword;
         lowerword2.data.brightPoints = `${detail}`;
-        floors.insert(bestIndex, lowerword);
         floors.insert(bestIndex + 1, lowerword2);
       }
       if (data.ok == 0 && data.msg.length > 0) {
