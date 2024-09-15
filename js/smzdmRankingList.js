@@ -27,7 +27,9 @@ if (typeof $response == "undefined") {
     datas.forEach(element => {
       let article_worthy = parseInt(element.article_worthy);
       let article_unworthy = parseInt(element.article_unworthy);
-      let rate = article_worthy/(article_worthy+article_unworthy)
+      let rate = article_worthy/(article_worthy+article_unworthy);
+      let article_type_id = element.article_type_id;
+      element.article_type_id = "2"; //1 是个人 2 是商家
       if(rate*100>80) {
           newDatas.push(element);
       }
