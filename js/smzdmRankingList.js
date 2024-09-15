@@ -1,6 +1,6 @@
 
 // Bark APP 通知推送Key
-const barkKey = '';
+const barkKey = 'mktnyy75pAZNBRJgpcq3Ub';
 
 const jsName = "smzdm";
 // const $ = API(jsName); // 创建一个名字为weather的脚本。默认为product环境，抑制所有log输出，保持error信息。。
@@ -28,12 +28,15 @@ if (typeof $response == "undefined") {
       let article_worthy = parseInt(element.article_worthy);
       let article_unworthy = parseInt(element.article_unworthy);
       let rate = article_worthy/(article_worthy+article_unworthy);
+      let article_comment = parseInt(element.article_comment);
       let article_type_id = element.article_type_id;
-      element.article_type_id = "2"; //1 是个人 2 是商家
-      if(rate*100>80) {
+      element.article_type_id = "2"; //1 是个人 2 是商家  不是需要进一步请求详情页
+      if(rate*100>80 && article_comment>8) {
           newDatas.push(element);
       }
     });
+    // 测试
+    notifyPhone("测试推送")
     // $.log("数据处理完成");
     originBody.data.rows = newDatas;
     // $.log(newDatas);
